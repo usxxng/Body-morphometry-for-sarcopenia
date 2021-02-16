@@ -1,0 +1,91 @@
+#main
+PIPELINE_NAME: seunet512
+DATA_DIRECTORY: '../input/dataset512'
+LOGGER_DIR: 'log'
+
+SEED: 42
+DEVICE: cuda
+DEVICE_LIST: [0]
+WORKERS: 12
+
+MODEL:
+  PRETRAINED: 
+    PIPELINE_PATH: experiments/seunet
+    CHECKPOINTS_FOLDER: checkpoints
+    PIPELINE_NAME: seunet512
+  FREEZE: False
+  PY: models.selim_zoo.unet
+  CLASS: SCSEUnet
+  ARGS:
+      seg_classes: 4
+
+FOLD:
+  NUMBER: 5
+  USEFOLDS: [0,1,2,3,4]
+  FILE: folds/train_folds_5.csv
+
+# preprocessing
+USE_SAMPLER: False
+NON_EMPTY_MASK_PROBA: 0.4
+
+TRAIN_TRANSFORMS:
+    transforms/train_transforms_complex_512.json
+VALID_TRANSFORMS:
+    transforms/valid_transforms_512.json
+
+# training
+CRITERION:
+    PY: Losses
+    CLASS: ComboLoss
+    ARGS:
+        weights:
+            bce: 3
+            dice: 1
+            focal: 4
+        channel_weights: [1,1,1,1]
+
+            
+OPTIMIZER:
+  CLASS: Adam
+  ARGS:
+    lr: 0.00001
+    weight_decay: 0.000005
+
+    
+SCHEDULER:
+ CLASS: CosineAnnealingLR
+ ARGS: 
+   T_max: 8
+   eta_min: 0.0000001       
+
+#SCHEDULER:
+#  CLASS: CosineAnnealingWarmRestarts
+#  ARGS: 
+#    T_0: 1
+#    T_mult: 2
+
+BATCH_SIZE: 1
+GRADIENT_ACCUMULATION_STEPS: 1
+GRADIENT_CLIPPING: 0.1
+EPOCHES: 50
+EARLY_STOPPING: 12
+
+# saving
+CHECKPOINTS:
+    FULL_FOLDER: checkpoints
+    BEST_FOLDER: checkpoints
+    TOPK: 3
+
+# validation - useless: needed to implement a new one
+MASK_BINARIZER:
+  PY: MaskBinarizers
+  CLASS: TripletMaskBinarization
+  ARGS:
+    triplets: [[0.25, 1000, 0.10], [0.25, 1000, 0.15], [0.25, 2000, 0.10], [0.25, 2000, 0.15], [0.15, 2000, 0.10], [0.15, 2000, 0.15], [0.15, 3000, 0.10], [0.15, 3000, 0.15]]
+
+EVALUATION_METRIC:
+  PY: Losses
+  CLASS: dice_metric
+  ARGS:
+    per_image: True
+

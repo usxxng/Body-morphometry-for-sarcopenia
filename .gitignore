@@ -1,0 +1,26 @@
+# ignore all logs
+*.log
+
+# ignore pycache
+*__pycache__
+
+# ignore pth
+*.pth
+
+# ignore data
+*.npy
+*.png
+*.dcm
+*.pkl
+
+# ignore jupyter jopascripts
+*.ipynb_checkpoints*
+*log/
+*checkpoints/
+
+# ignore submission folder
+*.zip
+*.rar
+.idea/
+
+subs/

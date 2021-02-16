@@ -1,0 +1,12 @@
+
+* YAML 파일 수정할때 체크할 사항
+
+1. 입력 데이터셋 폴더
+
+2. PIPELINE_NAME, PIPELINE_PATH 통일
+
+3. 배치사이즈, GPU device
+
+4. k-fold, albumen-transformation
+
+그 외는 상급자 전용

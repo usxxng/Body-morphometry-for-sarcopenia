@@ -1,0 +1,16 @@
+SAMPLE_SUB: ../input/sample_submission.csv
+
+RESULT_WEIGHTS:
+  experiments/albunet1024fold10/result_top3.pkl: 0.5
+  experiments/albunet1024fold10albJW/result_top3.pkl : 0.5
+
+AREA_THRESHOLD: 800
+TOP_SCORE_THRESHOLD: 0.25
+BOTTOM_SCORE_THRESHOLD: 0.2
+LEAK_SCORE_THRESHOLD: 0.2
+USELEAK: False
+USECONTOURS: False
+RESHAPE_MODE: True
+MIN_CONTOUR_AREA: 1300
+
+SUB_FILE: ../subs/ensemble01.csv

@@ -1,0 +1,91 @@
+#main
+PIPELINE_NAME: albunet1024fold10albJW_2
+DATA_DIRECTORY: '../input/dataset1024'
+LOGGER_DIR: 'log'
+BATCH_SIZE: 5
+
+
+DEVICE: cuda
+DEVICE_LIST: [0]
+
+MODEL:
+  PRETRAINED:
+    PIPELINE_PATH: experiments/albunet1024fold10albJW_2
+    CHECKPOINTS_FOLDER: checkpoints
+    PIPELINE_NAME: albunet1024fold10albJW_2
+
+  FREEZE: False
+  PY: models.ternausnets
+  CLASS: AlbuNet
+  ARGS:
+      pretrained: True
+      num_classes: 4
+
+FOLD:
+  NUMBER: 10
+  USEFOLDS: [0,1,2,3,4,5,6,7,8,9]
+  FILE: folds/train_folds_10.csv
+
+# preprocessing - no use
+USE_SAMPLER: False   # True
+NON_EMPTY_MASK_PROBA: 0.8
+
+TRAIN_TRANSFORMS:
+    transforms/train_transforms_hjw_1024.json
+VALID_TRANSFORMS:
+    transforms/valid_transforms_hjw_1024.json
+
+# training
+CRITERION: 
+    PY: Losses
+    CLASS: ComboLoss
+    ARGS: 
+        weights:
+            bce: 1
+            dice: 1
+            focal: 1
+        channel_weights: [1,1,1,1]
+
+
+OPTIMIZER:
+  CLASS: Adam
+  ARGS:
+    lr: 0.0001
+    weight_decay: 0.000005
+
+SCHEDULER:
+  CLASS: ReduceLROnPlateau
+  ARGS:
+    mode: max
+    factor: 0.1
+    patience: 2
+    threshold: 0.0000001
+    min_lr: 0.0000001
+
+
+GRADIENT_ACCUMULATION_STEPS: 1
+GRADIENT_CLIPPING: 0.1
+EPOCHES: 50
+EARLY_STOPPING: 10
+
+# saving
+CHECKPOINTS:
+    FULL_FOLDER: checkpoints
+    BEST_FOLDER: checkpoints
+    TOPK: 3
+
+# validation - useless: needed to implement a new one
+MASK_BINARIZER:
+  PY: MaskBinarizers
+  CLASS: TripletMaskBinarization
+  ARGS:
+    triplets: [[0.25, 1000, 0.10], [0.25, 1000, 0.15], [0.25, 2000, 0.10], [0.25, 2000, 0.15], [0.15, 2000, 0.10], [0.15, 2000, 0.15], [0.15, 3000, 0.10], [0.15, 3000, 0.15]]
+
+EVALUATION_METRIC:
+  PY: Losses
+  CLASS: dice_metric
+  ARGS: 
+    per_image: True
+    
+WORKERS: 12
+SEED: 42
