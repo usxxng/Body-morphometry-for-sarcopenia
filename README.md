@@ -5,7 +5,8 @@
 ![img1](./img_1.PNG)
 ![img2](./img_2.PNG)
 <br><br>
-Private Leaderboard : 2nd (Hallym MMC) 
+
+## Private Leaderboard : 2nd (Hallym MMC) 
 
 ![img3](./img_3.png)
 
