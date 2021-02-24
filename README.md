@@ -7,7 +7,7 @@
 <br><br>
 Private Leaderboard : 2nd (Hallym MMC) 
 
-![img3](./img_3.PNG)
+![img3](./img_3.png)
 
 [\[Solution\]](./kaggle solution 설명.pdf)
 
