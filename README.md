@@ -2,12 +2,12 @@
 ## MOAI 2020 Body Morphometry AI Segmentation Online Challenge
 
 [\[Competition Page\]](https://www.kaggle.com/c/body-morphometry-for-sarcopenia/overview)<br>
-![img1](./imgs/img_1.PNG)
-![img2](./imgs/img_2.PNG)
+![img1](./img_1.PNG)
+![img2](./img_2.PNG)
 <br><br>
 Private Leaderboard : 2nd (Hallym MMC) 
 
-![img3](./imgs/img_3.PNG)
+![img3](./img_3.PNG)
 
 [\[Solution\]](./kaggle solution 설명.pdf)
 
