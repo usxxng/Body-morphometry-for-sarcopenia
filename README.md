@@ -4,8 +4,11 @@
 [\[Competition Page\]](https://www.kaggle.com/c/body-morphometry-for-sarcopenia/overview)<br>
 ![img1](./img_1.PNG)
 ![img2](./img_2.PNG)
-<br>
+<br><br>
 Private Leaderboard : 2nd (Hallym MMC) 
+
+![img3](./img_3.png)
+
 [\[Solution\]](./kaggle solution 설명.pdf)
 
 # body-morp-segmentation
